@@ -14,13 +14,13 @@ public class ArrayListRTest {
 
     private ArrayListR arrayListR;
     private ArrayListR arrayListR1;
-    String one = "one";
-    String two = "two";
-    String three = "three";
-    String four = "four";
-    String five = "five";
-    String six = "six";
-    String seven = "seven";
+    Integer one = 1;
+    Integer two = 2;
+    Integer three = 3;
+    Integer four = 4;
+    Integer five = 5;
+    Integer six = 6;
+    Integer seven = 7;
 
     @BeforeEach
     public void setUp() {
@@ -39,8 +39,8 @@ public class ArrayListRTest {
     public void addTest() {
 
 
-        String actual = arrayListR.add(five);
-        String expected = five;
+        Integer actual = arrayListR.add(five);
+        Integer expected = five;
         assertEquals(expected, actual);
 
         int expected1 = 5;
@@ -60,13 +60,13 @@ public class ArrayListRTest {
     @Test
     public void addIndexTest() {
 
-        String actual = arrayListR.add(0, six);
+        Integer actual = arrayListR.add(0, six);
         System.out.println("actual = " + actual);
-        String expected = six;
+        Integer expected = six;
         System.out.println("six = " + six);
         assertEquals(expected, actual);
 
-        String[] newArray = {six, one, two, three, four};
+        Integer[] newArray = {six, one, two, three, four};
         assertArrayEquals(arrayListR.getArr(), newArray);
 
     }
@@ -81,12 +81,12 @@ public class ArrayListRTest {
     @Test
     public void set() {
 
-        String actual = arrayListR.set(0, five);
-        String expected = five;
+        Integer actual = arrayListR.set(0, five);
+        Integer expected = five;
         assertEquals(expected, actual);
 
 
-        String[] newArray = {five, two, three, four};
+        Integer[] newArray = {five, two, three, four};
         assertArrayEquals(arrayListR.getArr(), newArray);
 
     }
@@ -98,12 +98,12 @@ public class ArrayListRTest {
     @Test
     public void remove() {
 
-        String actual = arrayListR.remove(one);
-        String expected = one;
+        Integer actual = arrayListR.remove(one);
+        Integer expected = one;
         assertEquals(expected, actual);
 
 
-        String[] newArray = {two, three, four};
+        Integer[] newArray = {two, three, four};
         assertArrayEquals(arrayListR.getArr(), newArray);
 
     }
@@ -115,12 +115,12 @@ public class ArrayListRTest {
     @Test
     public void removeIndex() {
 
-        String actual = arrayListR.remove(1);
-        String expected = two;
+        Integer actual = arrayListR.remove(1);
+        Integer expected = two;
         assertEquals(expected, actual);
 
 
-        String[] newArray = {one, three, four};
+        Integer[] newArray = {one, three, four};
         assertArrayEquals(arrayListR.getArr(), newArray);
     }
 
@@ -171,8 +171,8 @@ public class ArrayListRTest {
     @Test
     public void get() {
 
-        String actual = arrayListR.get(1);
-        String expected = two;
+        Integer actual = arrayListR.get(1);
+        Integer expected = two;
         assertEquals(expected, actual);
 
     }
@@ -226,7 +226,7 @@ public class ArrayListRTest {
     // и вернуть его.
     @Test
     public void toArray() {
-        String[] newArr = {one, two, three, four};
+        Integer[] newArr = {one, two, three, four};
         assertArrayEquals(newArr, arrayListR.toArray());
     }
 

@@ -1,20 +1,19 @@
 package com.example.algorithms2;
 
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ArrayListR implements StringList {
+public class ArrayListR implements IntegerList {
 
-    String[] arr;
+    Integer[] arr;
     int sizeArr;
 
 
     public ArrayListR(int sizeArr) {
         this.sizeArr = sizeArr;
-        this.arr = new String[sizeArr];
+        this.arr = new Integer[sizeArr];
 
     }
 
@@ -22,7 +21,7 @@ public class ArrayListR implements StringList {
     // Вернуть добавленный элемент
     // в качестве результата выполнения.
     @Override
-    public String add(String item) {
+    public Integer add(Integer item) {
         if (item == null) {
             throw new RuntimeException("Пустая Строка");
         }
@@ -43,11 +42,11 @@ public class ArrayListR implements StringList {
         return item;
     }
 
-    public String[] getArr() {
+    public Integer[] getArr() {
         return arr;
     }
 
-    public void setArr(String[] arr) {
+    public void setArr(Integer[] arr) {
         this.arr = arr;
     }
 
@@ -59,14 +58,14 @@ public class ArrayListR implements StringList {
     // Вернуть добавленный элемент
     // в качестве результата выполнения.
     @Override
-    public String add(int index, String item) {
+    public Integer add(int index, Integer item) {
         if (item == null) {
             throw new RuntimeException("Пустая Строка");
         }
         if (index > arr.length + 1) {
             throw new RuntimeException("Неправильный размер масива");
         }
-        String[] arrNew = new String[arr.length + 1];
+        Integer[] arrNew = new Integer[arr.length + 1];
 
         System.arraycopy(arr, 0, arrNew, 0, index);
         arrNew[index] = item;
@@ -83,7 +82,7 @@ public class ArrayListR implements StringList {
     // фактического количества элементов
     // или выходит за пределы массива.
     @Override
-    public String set(int index, String item) {
+    public Integer set(int index, Integer item) {
         if (item == null) {
             throw new RuntimeException("Пустая Строка");
         }
@@ -101,7 +100,7 @@ public class ArrayListR implements StringList {
     // или исключение, если подобный
     // элемент отсутствует в списке.
     @Override
-    public String remove(String item) {
+    public Integer remove(Integer item) {
         if (item == null) {
             throw new RuntimeException("Пустая Строка");
         }
@@ -109,7 +108,7 @@ public class ArrayListR implements StringList {
 
         for (int index = 0; index < arr.length; index++) {
             if (arr[index].equals(item)) {
-                String[] arrNew = new String[arr.length - 1];
+                Integer[] arrNew = new Integer[arr.length - 1];
                 System.arraycopy(arr, 0, arrNew, 0, index);
                 System.arraycopy(arr, index + 1, arrNew, index, arr.length - index - 1);
                 arr = arrNew;
@@ -129,14 +128,14 @@ public class ArrayListR implements StringList {
     // или исключение, если подобный
     // элемент отсутствует в списке.
     @Override
-    public String remove(int index) {
-        String newItem;
+    public Integer remove(int index) {
+        Integer newItem;
         if (index > arr.length) {
             throw new RuntimeException("Неправильный размер массива");
         } else {
             newItem = arr[index];
 
-            String[] arrNew = new String[arr.length - 1];
+            Integer[] arrNew = new Integer[arr.length - 1];
             System.arraycopy(arr, 0, arrNew, 0, index);
             System.arraycopy(arr, index + 1, arrNew, index, arr.length - index - 1);
             arr = arrNew;
@@ -146,22 +145,66 @@ public class ArrayListR implements StringList {
     }
 
 
+    //*************************************
+    @Override
+    public void swapElements(Integer[] arr, int indexA, int indexB) {
+
+        int tmp = arr[indexA];
+        arr[indexA] = arr[indexB];
+        arr[indexB] = tmp;
+
+    }
+//***********************************
+
+    private void sortSelection(Integer[] arr) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            int minElementIndex = i;
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[j] < arr[minElementIndex]) {
+                    minElementIndex = j;
+                }
+            }
+            swapElements(arr, i, minElementIndex);
+        }
+    }
+//***********************************
+
+    private boolean contains(Integer[] arr, int element) {
+        sortSelection(arr);
+        int min = 0;
+        int max = arr.length - 1;
+
+        while (min <= max) {
+            int mid = (min + max) / 2;
+
+            if (element == arr[mid]) {
+                return true;
+            }
+
+            if (element < arr[mid]) {
+                max = mid - 1;
+            } else {
+                min = mid + 1;
+            }
+        }
+        return false;
+    }
+//***********************************
+
     // Проверка на существование элемента.
     // Вернуть true/false;
     @Override
-    public boolean contains(String item) {
-        if (item == null) {
-            throw new RuntimeException("Пустая Строка");
-        }
-        boolean result = Arrays.asList(arr).contains(item);
-        return result;
+    public boolean contains(Integer item) {
+        return contains(arr, item);
+
+
     }
 
     // Поиск элемента.
     // Вернуть индекс элемента
     // или -1 в случае отсутствия.
     @Override
-    public int indexOf(String item) {
+    public int indexOf(Integer item) {
         if (item == null) {
             throw new RuntimeException("Пустая Строка");
         }
@@ -178,7 +221,7 @@ public class ArrayListR implements StringList {
     // Вернуть индекс элемента
     // или -1 в случае отсутствия
     @Override
-    public int lastIndexOf(String item) {
+    public int lastIndexOf(Integer item) {
         if (item == null) {
             throw new RuntimeException("Пустая Строка");
         }
@@ -194,7 +237,7 @@ public class ArrayListR implements StringList {
     // если выходит за рамки фактического
     // количества элементов.
     @Override
-    public String get(int index) {
+    public Integer get(int index) {
         return arr[index];
     }
 
@@ -241,8 +284,8 @@ public class ArrayListR implements StringList {
     // из строк в списке
     // и вернуть его.
     @Override
-    public String[] toArray() {
-        String[] arrNew = new String[arr.length];
+    public Integer[] toArray() {
+        Integer[] arrNew = new Integer[arr.length];
         for (int index = 0; index < arr.length; index++) {
             arrNew[index] = arr[index];
         }
