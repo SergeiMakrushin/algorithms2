@@ -4,6 +4,7 @@ package com.example.algorithms2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class ArrayListR implements IntegerList {
 
@@ -20,22 +21,43 @@ public class ArrayListR implements IntegerList {
     // Добавление элемента.
     // Вернуть добавленный элемент
     // в качестве результата выполнения.
+    public Integer[] grow(Integer[] arr) {
+        int d = arr.length / 2;
+
+        Integer[] temp = arr.clone();
+        arr = new Integer[arr.length + d];
+        System.arraycopy(temp, 0, arr, 0, temp.length);
+        return arr;
+//        arr = Arrays.copyOf(arr, arr.length + 1);
+
+    }
+
     @Override
     public Integer add(Integer item) {
         if (item == null) {
             throw new RuntimeException("Пустая Строка");
         }
 
+        if (arr.length == 0) {
+            arr = new Integer[5];
+        }
+
         for (int i = 0; i < arr.length; i++) {
             if (arr[i] == null) {
                 arr[i] = item;
-
+                return arr[i];
             }
         }
-        arr = Arrays.copyOf(arr, arr.length + 1);
+
+        arr = grow(arr);
+
+//        int d = arr.length / 2;
+//        arr = Arrays.copyOf(arr, arr.length+d);
+
         for (int p = 0; p < arr.length; p++) {
             if (arr[p] == null) {
                 arr[p] = item;
+                break;
             }
         }
 
@@ -156,21 +178,48 @@ public class ArrayListR implements IntegerList {
     }
 //***********************************
 
-    private void sortSelection(Integer[] arr) {
-        for (int i = 0; i < arr.length - 1; i++) {
-            int minElementIndex = i;
-            for (int j = i + 1; j < arr.length; j++) {
-                if (arr[j] < arr[minElementIndex]) {
-                    minElementIndex = j;
-                }
+//    private void sortSelection(Integer[] arr) {
+//        for (int i = 0; i < arr.length - 1; i++) {
+//            int minElementIndex = i;
+//            for (int j = i + 1; j < arr.length; j++) {
+//                if (arr[j] < arr[minElementIndex]) {
+//                    minElementIndex = j;
+//                }
+//            }
+//            swapElements(arr, i, minElementIndex);
+//        }
+//    }
+
+    public static void sortSelection(Integer[] sortArr, int low, int high) {
+        //завершить,если массив пуст или уже нечего делить
+        if (sortArr.length == 0 || low >= high) return;
+
+        //выбираем опорный элемент
+        int middle = low + (high - low) / 2;
+        int border = sortArr[middle];
+
+        //разделияем на подмассивы и меняем местами
+        int i = low, j = high;
+        while (i <= j) {
+            while (sortArr[i] < border) i++;
+            while (sortArr[j] > border) j--;
+            if (i <= j) {
+                int swap = sortArr[i];
+                sortArr[i] = sortArr[j];
+                sortArr[j] = swap;
+                i++;
+                j--;
             }
-            swapElements(arr, i, minElementIndex);
         }
+
+        //рекурсия для сортировки левой и правой части
+        if (low < j) sortSelection(sortArr, low, j);
+        if (high > i) sortSelection(sortArr, i, high);
     }
 //***********************************
 
     private boolean contains(Integer[] arr, int element) {
-        sortSelection(arr);
+        sortSelection(arr,0,arr.length-1);
         int min = 0;
         int max = arr.length - 1;
 
@@ -210,7 +259,8 @@ public class ArrayListR implements IntegerList {
         }
 
         for (int index = 0; index < arr.length; index++) {
-            if (arr[index].equals(item))
+            if (Objects.equals(arr[index], item))
+
                 return index;
         }
         return -1;
@@ -226,7 +276,7 @@ public class ArrayListR implements IntegerList {
             throw new RuntimeException("Пустая Строка");
         }
         for (int index = arr.length - 1; index >= 0; index--) {
-            if (arr[index].equals(item))
+            if (Objects.equals(arr[index], item))
                 return index;
         }
         return -1;
@@ -268,10 +318,10 @@ public class ArrayListR implements IntegerList {
     public boolean isEmpty() {
 
         for (int index = 0; index < arr.length; index++) {
-            if (arr[index] == null)
-                return true;
+            if (arr[index] != null)
+                return false;
         }
-        return false;
+        return true;
     }
 
     // Удалить все элементы из списка.
